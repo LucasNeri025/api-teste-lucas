@@ -1,11 +1,12 @@
 const express = require ('express');
 const User = require ('../models/user')
+const funcionario = require('../models/funcionario')
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth.json')
-
-
+const crypto = require('crypto')
+const mailer = require('../../modules/mailer')
 
 function generateToken(params = {}){
     return jwt.sign(params, authConfig.secret,{
@@ -49,11 +50,60 @@ router.post('/authenticate', async (req, res)=>{
     });
 });
 
+router.post('/forgot_password', async (req,res)=>{
+    const { email } = req.body;
+    try{
+        const user = await User.findOne({email});
 
 
+        if(!user)
+        return res.status(400).send({error:'User not found'})
 
+        const token = crypto.randomBytes(20).toString('hex');
+
+        const now = new Date();
+        now.setHours(now.getHours()+ 1);
+        
+        await User.findByIdAndUpdate(user.id,{
+            '$set':{
+                passwordResetToken:token,
+                passwordResetExpires:now,
+            }
+        })
+    
+        mailer.sendMail({
+            to: email,
+            from:'lucas55555@hotmail.com',
+            template:'/auth/forgot_password',
+            context:{ token },
+        },(err)=>{
+            if(err){
+                console.log(err)
+                return res.status(400).send({error:'Cannot send forgot password email.'})}
+
+            
+            return res.send();
+        })
+    }catch(err){
+        console.log(err)
+        res.status(400).send({error: 'Error on forgot password,try again'})
+    }
+})
+
+router.post('/addfunc',async (req,res)=>{
+    try{
+        const fun = await funcionario.create(req.body);    
+        return res.send(fun)
+    }catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/funcionarios',async (req,res)=>{
+    
+    
+
+
+})
 
 module.exports = app => app.use('/auth',router)
-
-
-
