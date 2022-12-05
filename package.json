@@ -1,13 +1,13 @@
 {
   "name": "projeto-cadastro-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "api de teste para aplicativo web para portfolio",
   "main": "index.js",
   "scripts": {
     "start": "node src/index"
   },
   "keywords": [],
-  "author": "",
+  "author": "lucas neri",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
