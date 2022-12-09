@@ -1,6 +1,6 @@
 const mongoose = require ('../../database/index.js')
 
-const UserSchema = new mongoose.Schema({
+const FuncionarioSchema = new mongoose.Schema({
     nameFunc:{
         type:String,
         require:true,
@@ -33,12 +33,13 @@ const UserSchema = new mongoose.Schema({
         type:String,
         require:true,
     },
-    emailDoUsuario:{
-        type:String,
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
         require:true,
     },
 });
 
-const Funcionario = mongoose.model('Funcionario', UserSchema);
+const Funcionario = mongoose.model('Funcionario', FuncionarioSchema);
 
 module.exports = Funcionario;

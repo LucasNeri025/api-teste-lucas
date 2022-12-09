@@ -125,29 +125,4 @@ try {
 })
 
 
-router.post('/home',async(req,res)=>{
-    res.send('Deu Certo')    
-})
-router.post('/addfunc',async (req,res)=>{
-    try{
-        const fun = await funcionario.create(req.body);    
-        return res.send(fun)
-    }catch(err){
-        console.log(err)
-    }
-})
-
-router.post('/funcionarios',async (req,res)=>{
-   const {emailDoUsuario} = req.body
-    try{
-        if(await funcionario.find({emailDoUsuario}) == emailDoUsuario)
-            res.send()
-        
-    }catch(e){console.log(e)}
-    
-});
-
-
-
-
 module.exports = app => app.use('/auth',router)
