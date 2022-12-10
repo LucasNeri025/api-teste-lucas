@@ -5,6 +5,10 @@ const FuncionarioSchema = new mongoose.Schema({
         type:String,
         require:true,
     },
+    salarioFunc:{
+        type:String,
+        require:true,
+    },
     cpfFunc:{
         type:String,
         require:true,
