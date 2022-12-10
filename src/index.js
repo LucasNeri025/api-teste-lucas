@@ -13,10 +13,10 @@ app.use(cors(option))
 
 
 
-app.use((req,res,next)=>{
-    enableCors();
-    next()
-});
+//app.use((req,res,next)=>{
+//    enableCors();
+//next()
+//});
 
 
 
