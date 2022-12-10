@@ -4,7 +4,19 @@ const port = process.env.PORT || 3000;
 const cors = require('cors')
 const app = express();
 
-app.use(cors())
+const option = cors.CorsOptions = {
+    methods:"GET,PUT,POST,DELETE",
+    origin:"*"
+}
+    
+app.use(cors(option))
+
+
+
+app.use((req,res,next)=>{
+    enableCors();
+    next()
+}
 
 
 
