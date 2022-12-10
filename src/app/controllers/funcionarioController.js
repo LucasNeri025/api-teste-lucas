@@ -1,14 +1,18 @@
 const express = require('express')
 const authMiddleware = require('../middlewares/auth');
 const Funcionario = require('../models/funcionario');
-
+const cors = require('cors')
+const option = cors.CorsOptions = {
+    methods:"GET,PUT,POST,DELETE",
+    origin:"*"
+}
 
 const router = express.Router();
 
 router.use(authMiddleware);
 
 //     Cria Funcionario
-router.post('/', async (req,res)=>{
+router.post('/',cors(option), async (req,res)=>{
     try{
         const funcionario = await Funcionario.create({...req.body, user: req.userId });
 
@@ -20,7 +24,7 @@ router.post('/', async (req,res)=>{
 });
 
 //     Edita Funcionario
-router.put('/:funcionarioId', async (req,res)=>{
+router.put('/:funcionarioId',cors(option), async (req,res)=>{
     try{
         const funcionario = await Funcionario.findByIdAndUpdate(req.params.funcionarioId, req.body,{new:true});
 
@@ -31,7 +35,7 @@ router.put('/:funcionarioId', async (req,res)=>{
 })
 
 //     busca os Funcionario
-router.get('/', async (req,res)=>{
+router.get('/',cors(option),  async (req,res)=>{
     try{
         const funcionarios = await Funcionario.find({'user':req.userId});
 
@@ -42,7 +46,7 @@ router.get('/', async (req,res)=>{
 })
 
 //     busca um Funcionario
-router.get('/:funcionarioId', async (req,res)=>{
+router.get('/:funcionarioId',cors(option),  async (req,res)=>{
     try{
         const funcionarios = await Funcionario.findById(req.params.funcionarioId).populate(['user']);
 
@@ -52,8 +56,8 @@ router.get('/:funcionarioId', async (req,res)=>{
     }
 })
 
-//     busca um Funcionario
-router.delete('/:funcionarioId', async (req,res)=>{
+//     deleta um Funcionario
+router.delete('/:funcionarioId',cors(option),  async (req,res)=>{
     try{
         await Funcionario.findByIdAndRemove(req.params.funcionarioId);
 
