@@ -1,8 +1,8 @@
 const mongoose = require ('mongoose')
 
-mongoose.connect('mongodb+srv://lucasneri:vanda121@crud-cadastro.zm6sxlz.mongodb.net/BASEDEDADOS?retryWrites=true&w=majority',
+mongoose.connect(process.env.CONNECTIONSTRING,
 {useUnifiedTopology:false})
-.then(console.log("yes"))
+.then(console.log("Conectou ao BD"))
 .catch( e => console.log(e))
 
 mongoose.Promise = global.Promise;
