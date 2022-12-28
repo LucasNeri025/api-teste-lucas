@@ -1,16 +1,15 @@
 const express = require ('express');
 const User = require ('../models/user')
-const funcionario = require('../models/funcionario')
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const authConfig = require('../../config/auth.json')
+require('dotenv').config();
 const crypto = require('crypto')
 const mailer = require('../../modules/mailer')
 
 
 function generateToken(params = {}){
-    return jwt.sign(params, authConfig.secret,{
+    return jwt.sign(params, process.env.SECRET,{
         expiresIn:86400,
     })
 }
